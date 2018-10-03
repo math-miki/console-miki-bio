@@ -1,0 +1,53 @@
+
+@charset "utf-8";
+@@font-face {
+  font-family: "rounded-mplus-1p-light";
+  url('../fonts/rounded-mplus-1p-light.ttf') format('truetype')
+}
+
+/* normalize */
+
+html {
+  font-family: "rounded-mplus-1p-light";
+  height: 100%;
+}
+body {
+  height: 100%;
+  display: flex;
+}
+
+/* h1 tag uses only top of page */
+h1.title {
+  background: rgba(0, 0, 0, 0.5);
+  width:100%;
+  /* height: 82px; */
+  margin: 0px;
+  padding: 20px;
+
+  font-size: 42px;
+  color: #CECECE;
+}
+body>div.console {
+  width: 50%;
+  height: auto;
+}
+
+div#command_line {
+  background: #131510;
+}
+div#output_console {
+  background: #648433;
+}
+
+div.console>p.context {
+  margin-top: 10px;
+  margin-left: 20px;
+  margin-bottom: 10px;
+  font-size: 20px;
+}
+div#command_line>p#command_line_context {
+  color: #fff;
+}
+div#output_console>p#output_console_context {
+  color: #131510;
+}
