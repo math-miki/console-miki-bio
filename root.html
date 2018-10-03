@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <title>root</title>
+  <script src="./common_keyboard.js"></script>
+  <link rel="stylesheet" href="./normalize.css">
+  <link rel="stylesheet" href="./console.css">
+</head>
+<body>
+
+  <div id="command_line" class="console">
+    <h1 class="title">Command Line</h1>
+    <p id="command_line_context" class="context">
+      now you are at console.miki.bio/root $ <span id="cursor"></span>
+    </p>
+  </div>
+  <div id="output_console" class="console">
+    <h1 class="title">Output Console</h1>
+    <p id="output_console_context" class="context">
+      Welcome to Miki's page. You are at root. <br>
+      Type ‘cd /home’ and Enter to. <br>
+      or ... <br>
+      Type ‘cd /tutorial’ and Enter to learn commands used in this sites. <br>
+      Type ‘exit’ and Enter to back to miki.bio <br>
+    </p>
+  </div>
+  <script>
+    function flashingCursor() {
+      var cursor = document.getElementById("cursor");
+      if(cursor.innerHTML === "|") {
+        cursor.textContent = "";
+      } else {
+        cursor.textContent = "|";
+      }
+      console.log(cursor.innerHTML);
+      setTimeout(flashingCursor, 500);
+    }
+    flashingCursor()
+  </script>
+</body>
+</html>
