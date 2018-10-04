@@ -58,5 +58,12 @@ div#output_console>p#output_console_context>h2.output_title {
   padding: 0px;
   font-size: 30px;
   color: #fff;
-
+}
+div#output_console>p#output_console_context>a.sns {
+  color:#131510;
+  text-decoration: none;
+}
+div#output_console>p#output_console_context>a.sns:active {
+  color:#131510;
+  text-decoration: none;
 }
