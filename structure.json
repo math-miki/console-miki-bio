@@ -1,5 +1,5 @@
 var PDIR_CDIR = {
-    "root": ["miki.bio","Profiles", "Hobies", ""],
+    "root": ["miki.bio","Profiles", "Hobies", "Interests", "Articles"],
     "Profiles": ["miki.bio"],
     "Hobies": ["miki.bio"],
     "Interests": ["miki.bio"],
@@ -10,8 +10,8 @@ var DIR_FILE = {
   "root": [],
   "Profiles": ["basic", "programmer"],
   "Hobies": ["coffee"],
-  "Interest": ["programming"],
-  "Articles": [""]
+  "Interests": ["programming"],
+  "Articles": ["articles"]
 }
 
 var FILE_CONTEXT = {
@@ -19,5 +19,5 @@ var FILE_CONTEXT = {
   "programmer": "ex-iOSAppDev. / MediaArtist / GenerativeArt / CreativeCoding ",
   "coffee": "barist at Starbucks / barist at home / i really like Rwanda ",
   "programming": "Swift<br>Processing<br>GLSL<br>nim<br>",
-  "Articles": "about Delaunay Triangulation"
+  "articles": "about Delaunay Triangulation"
 }
