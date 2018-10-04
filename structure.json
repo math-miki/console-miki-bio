@@ -1,0 +1,23 @@
+var PDIR_CDIR = {
+    "root": ["miki.bio","Profiles", "Hobies", ""],
+    "Profiles": ["miki.bio"],
+    "Hobies": ["miki.bio"],
+    "Interests": ["miki.bio"],
+    "Articles": ["miki.bio"],
+}
+
+var DIR_FILE = {
+  "root": [],
+  "Profiles": ["basic", "programmer"],
+  "Hobies": ["coffee"],
+  "Interest": ["programming"],
+  "Articles": [""]
+}
+
+var FILE_CONTEXT = {
+  "basic": "B2 at FMS in Meiji-Univ / 20-year-old / Starbucks PTR ",
+  "programmer": "ex-iOSAppDev. / MediaArtist / GenerativeArt / CreativeCoding ",
+  "coffee": "barist at Starbucks / barist at home / i really like Rwanda ",
+  "programming": "Swift<br>Processing<br>GLSL<br>nim<br>",
+  "Articles": "about Delaunay Triangulation"
+}
