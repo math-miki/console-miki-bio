@@ -2,12 +2,12 @@ var initsentense = "now you are at console.miki.bio";
 var pastConsoleSentenses = "";
 var tmpSentense = "";
 var currentPath = "/root";
-var currentChild = ["miki.bio", "Profiles"]
-var currentAvailableContext = []
 window.onload = function() {
   // define
+  console.log(PDIR_CDIR);
   document.onkeydown = keydown;
   var consoleEl = document.getElementById("command_line_context");
+  var outputField = document.getElementById("output_console_context");
   // 制御関数
   function keydown(e) {
     if(e.key === 'Enter') {
@@ -45,6 +45,7 @@ window.onload = function() {
         break;
       case 'cat':
         /* TODO:cat */
+        cat(commands.slice(1));
         break;
       default:
         // command didn't make any sense
@@ -69,15 +70,17 @@ window.onload = function() {
        currentChildDirectories: Profiles Hobies Articles <br>
        currentAvailableContext: sns_accounts
      */
+     const currentCDir = getCurrentChildDirs();
+     const currentCFile = getCurrentChildFiles();
      var output = ""
-     if(currentChild.length>0) {
-       output += "> currentChildDirectories: " + currentChild.join(" ");
+     if(currentCDir.length>0) {
+       output += "> currentChildDirectories: " + currentCDir.join(" ");
      }
-     if(currentAvailableContext.length>0) {
+     if(currentCFile.length>0) {
        if(output.length>0) {
          output+="<br>"
        }
-       output +="> currentAvailableContext" + currentAvailableContext.join(" ");
+       output +="> currentAvailableContext: " + currentCFile.join(" ");
      }
      goNewLine(output);
   }
@@ -88,7 +91,9 @@ window.onload = function() {
     if (options[0]=='miki.bio') {
       window.location.href = 'http://miki.bio';
     }
-    if(currentChild.includes(options[0])) {
+    const currentCDir = getCurrentChildDirs();
+    const currentCFile = getCurrentChildFiles();
+    if(currentCDir.includes(options[0])) {
       changeDirectoryTo(currentPath+"/"+options[0]);
     } else if(options[0]==='./'){
       goNewLine();
@@ -108,9 +113,31 @@ window.onload = function() {
   function cat(optionArr) {
     const options = optionArr.filter(option => option!=='');
     /* TODO: is options[0] included in currentAvailableContext ?
-     */
+    */
+    if(getCurrentChildFiles().includes(options[0])) {
+      goNewLine("> show " + options[0] + " on the right field");
+      const head = '<h2 class="output_title">about '+options[0]+'</h2>';
+      const context = FILE_CONTEXT[options[0]];
+      console.log(context);
+      updateOutputConcole(head + context);
+    } else {
+      goNewLine('> '+options[0]+": No such file or directory");
+    }
   }
 
+  /* ステータス取得 */
+  function getCurrentChildDirs() {
+    const paths = currentPath.split("/");
+    const path = paths[paths.length - 1];
+    return PDIR_CDIR[path];
+  }
+  function getCurrentChildFiles() {
+    const paths = currentPath.split("/");
+    const path = paths[paths.length - 1];
+    return DIR_FILE[path];
+  }
+
+  /* テキスト挿入処理 */
   function updateConsoleContext() {
     consoleEl.innerHTML = pastConsoleSentenses+initsentense+currentPath+' $ '+tmpSentense+'<span id="cursor"></span>'
   }
@@ -128,6 +155,11 @@ window.onload = function() {
     tmpSentense=""
     currentPath = newDirectory;
     updateConsoleContext()
+  }
+  function updateOutputConcole(outputHTML) {
+    current_output = outputField.innerHTML;
+    current_output += outputHTML + '<br>';
+    outputField.innerHTML = current_output;
   }
   function updateCurrentNodeStatus(newDirectory) {
     /* TODO:
@@ -153,7 +185,7 @@ window.onload = function() {
       |- Coffee
       |- Camera
       |- Tennis
-  |- Interst
+  |- Interest
   |- Articles
 
 some files are always available
