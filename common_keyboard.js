@@ -31,7 +31,7 @@ window.onload = function() {
       }
     } else if(e.key === 'Backspace') {
       tmpSentense = tmpSentense.slice(0,-1);
-      updateConsoleContext();c
+      updateConsoleContext();
     } else if(e.key.length === 1) {
       tmpSentense += e.key;
       updateConsoleContext();
@@ -48,6 +48,10 @@ window.onload = function() {
     // reaching here means something which can be commands typed
     // commands[0] means typed commands
     // commands[1:] means options of commands
+    if (!commands[0]) {
+      goNewLine();
+      return;
+    }
     switch(commands[0]) {
       case 'pwd':
         pwd();
@@ -148,7 +152,7 @@ window.onload = function() {
       const dir = Object.keys(PDIR_CDIR)[index];
       console.log(seed);
       const judge = dir.slice(0,seed.length);
-      if(judge === seed) {
+      if(judge === seed&&!(expectedList.includes(dir))&&getCurrentChildDirs().includes(dir)) {
         expectedList.push(dir);
       }
     }
@@ -157,11 +161,12 @@ window.onload = function() {
       for (j in fileList) {
         file = fileList[j];
         const judge = file.slice(0,seed.length);
-        if(judge === seed) {
+        if(judge === seed&&!(expectedList.includes(file))&&getCurrentChildFiles().includes(file)) {
           expectedList.push(file);
         }
       }
     }
+    console.log(expectedList);
     return expectedList;
   }
   /* ステータス取得 */
