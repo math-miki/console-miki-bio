@@ -12,9 +12,26 @@ window.onload = function() {
   function keydown(e) {
     if(e.key === 'Enter') {
       analysisCommand();
+    } else if(e.key === 'Tab') {
+      // disable Tab's default action
+      event.preventDefault();
+      const commands = tmpSentense.split(" ");
+      const predictWord = commands[commands.length-1];
+      if(predictWord==='') { return; }
+      const expectedList = expectWord(predictWord);
+      const expectedPatternCount = expectedList.length;
+
+      if(expectedPatternCount===0) {
+        goNewLine("cannot predict from your last command");
+      } else if(expectedPatternCount===1) {
+        tmpSentense = commands.slice(0,-1).join(" ")+" "+expectedList[0];
+        updateConsoleContext();
+      } else {
+
+      }
     } else if(e.key === 'Backspace') {
       tmpSentense = tmpSentense.slice(0,-1);
-      updateConsoleContext();
+      updateConsoleContext();c
     } else if(e.key.length === 1) {
       tmpSentense += e.key;
       updateConsoleContext();
@@ -124,7 +141,29 @@ window.onload = function() {
       goNewLine('> '+options[0]+": No such file or directory");
     }
   }
-
+  function expectWord(seed) {
+    const expectedList = [];
+      console.log(Object.keys(PDIR_CDIR));
+    for (index in Object.keys(PDIR_CDIR)) {
+      const dir = Object.keys(PDIR_CDIR)[index];
+      console.log(seed);
+      const judge = dir.slice(0,seed.length);
+      if(judge === seed) {
+        expectedList.push(dir);
+      }
+    }
+    for (i in Object.values(DIR_FILE)) {
+      const fileList = Object.values(DIR_FILE)[i];
+      for (j in fileList) {
+        file = fileList[j];
+        const judge = file.slice(0,seed.length);
+        if(judge === seed) {
+          expectedList.push(file);
+        }
+      }
+    }
+    return expectedList;
+  }
   /* ステータス取得 */
   function getCurrentChildDirs() {
     const paths = currentPath.split("/");
