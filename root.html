@@ -9,7 +9,6 @@
   <link rel="stylesheet" href="./console.css">
 </head>
 <body>
-
   <div id="command_line" class="console">
     <h1 class="title">Command Line</h1>
     <p id="command_line_context" class="context">
@@ -20,15 +19,37 @@
     <h1 class="title">Output Console</h1>
     <p id="output_console_context" class="context">
       Welcome to Miki's page. You are at root. <br>
-      Type ‘cd /home’ and Enter to. <br>
+      Type ‘cd home’ and Enter to. <br>
       or ... <br>
-      Type ‘cd /tutorial’ and Enter to learn commands used in this sites. <br>
-      Type ‘exit’ and Enter to back to miki.bio. <br>
-      I don't care about wether alphabet are capital or not. take it easy to your journey. <br>
+      Type ‘cd tutorial’ and Enter to learn commands used in this sites. <br>
+      Type cd miki.bio and Enter to back to miki.bio. <br>
+      I don't care about wether alphabet are capital or not. enjoy your journey. <br>
 
     </p>
   </div>
   <script>
+    const output = document.getElementById("output_console_context");
+    const message = output.innerHTML
+    const messages = message.split("<br>")
+    let i=0;
+
+    output.innerHTML="";
+    function typeMessage() {
+      output.innerHTML=output.innerHTML+messages[i].charAt(0);
+      messages[i]=messages[i].slice(1);
+      if(messages[i].length===0){
+        output.innerHTML=output.innerHTML+"<br>";
+        i++;
+        if(messages.length===i) {
+          return;
+        } else {
+          setTimeout(typeMessage, 30);
+        }
+      } else {
+        setTimeout(typeMessage, 30);
+      }
+    }
+    typeMessage();
     function flashingCursor() {
       var cursor = document.getElementById("cursor");
       if(cursor.innerHTML === "|") {
