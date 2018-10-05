@@ -112,7 +112,7 @@ window.onload = function() {
       window.location.href = 'http://miki.bio';
       return;
     }
-    const tmpPath = getTmpPath(options);
+    // const tmpPath = getTmpPath(options);
     /* tmpPath is the absolute path expressing option's path */
     // const currentCDir = getCurrentChildDirs(tmpPath);
     // const currentCFile = getCurrentChildFiles(tmpPath);
