@@ -166,7 +166,6 @@ window.onload = function() {
         }
       }
     }
-    console.log(expectedList);
     return expectedList;
   }
   /* ステータス取得 */
