@@ -110,9 +110,25 @@ window.onload = function() {
     if (options.length===0) {/* TODO:空の処理 */}
     if (options[0]=='miki.bio') {
       window.location.href = 'http://miki.bio';
+      return;
     }
+    const tmpPath = getTmpPath(options);
+    /* tmpPath is the absolute path expressing option's path */
+    // const currentCDir = getCurrentChildDirs(tmpPath);
+    // const currentCFile = getCurrentChildFiles(tmpPath);
+    /* TODO:
+      error handling
+      if(currentCDir===null && currentCFile===null) {
+        var message = "> no such context or directory: " + options[0];
+        goNewLine(message);
+        return;
+      } else {
+
+      }
+     */
     const currentCDir = getCurrentChildDirs();
     const currentCFile = getCurrentChildFiles();
+
     if(currentCDir.includes(options[0])) {
       changeDirectoryTo(currentPath+"/"+options[0]);
     } else if(options[0]==='./'){
@@ -168,16 +184,41 @@ window.onload = function() {
   }
   /* ステータス取得 */
   function getCurrentChildDirs() {
+  // function getCurrentChildDirs(tmpPath) {
+  /* TODO: get tmp child directories from tmpPath */
     const paths = currentPath.split("/");
     const path = paths[paths.length - 1];
     return PDIR_CDIR[path];
   }
   function getCurrentChildFiles() {
+  // function getCurrentChildFiles(tmpPath) {
+  /* TODO: get tmp child files from tmpPath */
     const paths = currentPath.split("/");
     const path = paths[paths.length - 1];
     return DIR_FILE[path];
   }
-
+  function getTmpPath(option) {
+    /* TODO: get absolute path from option(relative path from currentPath) */
+      let tmpPath = currentPath;
+      if(option[0]==="/") {
+        tmpPath = "/root";
+      }
+      const dirs = option.split("/").filter(element=> element!=='');
+      for(let i=0; i<dirs.length; i++){
+        const dir = dirs[i];
+        if(getCurrentChildDirs(tmpPath).includes(dir)) {
+          tmpPath += "/"+dir;
+        } else if(dir === "./") {
+        } else if(dir === "../") {
+          if(tmpPath==="/root") {
+            goNewLine("> You cannot go up over the /root");
+            return "/root";
+          }
+        } else {
+          /* TODO: no such context or directory: dir */
+        }
+      }
+  }
   /* テキスト挿入処理 */
   function updateConsoleContext() {
     consoleEl.innerHTML = pastConsoleSentenses+initsentense+currentPath+' $ '+tmpSentense+'<span id="cursor"></span>'
