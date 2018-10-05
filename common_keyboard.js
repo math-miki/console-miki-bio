@@ -147,12 +147,11 @@ window.onload = function() {
   }
   function expectWord(seed) {
     const expectedList = [];
-      console.log(Object.keys(PDIR_CDIR));
     for (index in Object.keys(PDIR_CDIR)) {
       const dir = Object.keys(PDIR_CDIR)[index];
       console.log(seed);
       const judge = dir.slice(0,seed.length);
-      if(judge === seed&&!(expectedList.includes(dir))&&getCurrentChildDirs().includes(dir)) {
+      if(judge.toLowerCase() === seed.toLowerCase()&&!(expectedList.includes(dir))&&getCurrentChildDirs().includes(dir)) {
         expectedList.push(dir);
       }
     }
@@ -161,7 +160,7 @@ window.onload = function() {
       for (j in fileList) {
         file = fileList[j];
         const judge = file.slice(0,seed.length);
-        if(judge === seed&&!(expectedList.includes(file))&&getCurrentChildFiles().includes(file)) {
+        if(judge.toLowerCase() === seed.toLowerCase()&&!(expectedList.includes(file))&&getCurrentChildFiles().includes(file)) {
           expectedList.push(file);
         }
       }
