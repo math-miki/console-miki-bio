@@ -1,5 +1,7 @@
 var PDIR_CDIR = {
-    "root": ["miki.bio","Profiles", "Hobies", "Interests", "Articles"],
+    "root": ["miki.bio", "Home", "tutorial"],
+    "Home": ["miki.bio","Profiles", "Hobies", "Interests", "Articles"],
+    "tutorial": [],
     "Profiles": ["miki.bio"],
     "Hobies": ["miki.bio"],
     "Interests": ["miki.bio"],
@@ -7,17 +9,21 @@ var PDIR_CDIR = {
 }
 
 var DIR_FILE = {
-  "root": [],
-  "Profiles": ["basic", "programmer"],
-  "Hobies": ["coffee"],
-  "Interests": ["programming"],
-  "Articles": ["articles"]
+  "root": ["sns"],
+  "tutorial": ["use_cat"],
+  "Home": ["sns"],
+  "Profiles": ["sns", "basic", "programmer"],
+  "Hobies": ["sns", "coffee"],
+  "Interests": ["sns","programming"],
+  "Articles": ["sns", "articles"]
 }
 
 var FILE_CONTEXT = {
+  "sns": "<a class='sns' href='https://twitter.com/micky_dtl'>Twitter: @micky_dtl</a><br><a class='sns' href='https://instagram.com/sauce.tar.tar'>Instagram: @sauce.tar.tar</a>",
   "basic": "B2 at FMS in Meiji-Univ / 20-year-old / Starbucks PTR ",
   "programmer": "ex-iOSAppDev. / MediaArtist / GenerativeArt / CreativeCoding ",
   "coffee": "barist at Starbucks / barist at home / i really like Rwanda ",
-  "programming": "Swift<br>Processing<br>GLSL<br>nim<br>",
-  "articles": "about Delaunay Triangulation"
+  "programming": "Swift: Swift is the longest used programming language (from Swift1.1!).<br>I have worked as a iOSAppDev for about 1-year.<br>Processing<br>GLSL<br>nim<br>",
+  "articles": "about Delaunay Triangulation",
+  "use_cat": "<h2 class='output_title'>congratulations!!!</h2><br><h2 class='output_title'>You got the way to see content in this website.</h2>"
 }
