@@ -86,11 +86,10 @@ window.onload = function() {
   function pwd() { goNewLine(currentPath); }
   function ls(optionArr) {
     const options = optionArr.filter(option => option!=='');
-    /* TODO: show currentChild and currentAvailableContext using goNewLine and updateConsoleContext
-      msg =
-       currentChildDirectories: Profiles Hobies Articles <br>
-       currentAvailableContext: sns_accounts
+    /* TODO:
+      -a option to show secret files.
      */
+
      const currentCDir = getCurrentChildDirs();
      const currentCFile = getCurrentChildFiles();
      var output = ""
