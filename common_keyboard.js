@@ -48,6 +48,12 @@ window.onload = function() {
     // reaching here means something which can be commands typed
     // commands[0] means typed commands
     // commands[1:] means options of commands
+    /*
+      TODO: now, i can use tab-prediction with all commands.
+            prepare list of directories with which tab-prediction can use.
+            ex) [ls, cd, cat, ]
+            upps, i have the opportunity in all commands...
+     */
     if (!commands[0]) {
       goNewLine();
       return;
@@ -57,17 +63,25 @@ window.onload = function() {
         pwd();
         break;
       case 'ls':
-        /* TODO:ls */
-        ls(commands.slice(1));
+        ls(commands.slice(1)); /* TODO: commands.slice(1) -> add option -a */
         break;
       case 'cd':
-        /* TODO:cd */
-        cd(commands.slice(1));
+        cd(commands.slice(1)); /* TODO: change to commands[1]. only use directory name( or path and name) */
         break;
       case 'cat':
-        /* TODO:cat */
-        cat(commands.slice(1));
+        cat(commands.slice(1)); /* TODO: change to commands[1]. only use context name( or path and name) */
         break;
+      case 'mkdir':
+        mkdir(commands[1]); // only new directory name( or path and name)
+        break;
+      case 'touch':
+        mkdir(commands.slice(1));
+        break;
+      case 'echo':
+        mkdir(commands.slice(1));
+        break;
+      case 'rm':
+        mkdir(commands.slice(1));
       default:
         // command didn't make any sense
         /* TODO:byebye */
@@ -177,11 +191,47 @@ window.onload = function() {
       goNewLine('> '+options[0]+": No such file or directory");
     }
   }
-  function mkdir() {
-    /* TODO:  */
+  function mkdir(option) {
+    /* TODO: in mkdir, i can't use path chain because of error in getTmpPath method. */
+    const pathChain = option.split("/").filter(element=> element!=='');
+    let path = currentPath;
+    let newDirName = option;
+    if(pathChain.length>1) {
+      path = getTmpPath(pathChain.slice(0,-1));
+      fileName = pathChain[pathChain.length-1];
+    }
+    if(path!=null) {
+      const dirs = path.split("/");
+      const dir = dirs[dirs.length-1];
+
+      if(!(PDIR_CDIR[dir].includes(newDirName))) {
+        PDIR_CDIR[dir].push(newDirName);
+        PDIR_CDIR[newDirName] = ["miki.bio"];
+        DIR_FILE[newDirName] = ["sns"];
+        goNewLine("Added new Directory: " + newDirName);
+      } else {
+        goNewLine(newDirName + ": Directory of this name already exists");
+      }
+    }
   }
-  function touch() {
+  function touch(option) {
     /* TODO: */
+    const pathChain = option.split("/").filter(element=> element!=='');
+    let path = currentPath;
+    let newFileName = option;
+    if(pathChain.length>1) {
+      path = getTmpPath(pathChain.slice(0,-1));
+      newFileName = pathChain[pathChain.length-1];
+    }
+    /* TODO: under codes are copied from mkdir. update */
+    if(!(PDIR_CDIR[dir].includes(newDirName))) {
+      PDIR_CDIR[dir].push(newDirName);
+      PDIR_CDIR[newDirName] = ["miki.bio"];
+      DIR_FILE[newDirName] = ["sns"];
+      goNewLine("Added new Directory: " + newDirName);
+    } else {
+      goNewLine(newDirName + ": Directory of this name already exists");
+    }
   }
   function echo() {
     /* TODO: */
