@@ -2,6 +2,7 @@ var initsentense = "now you are at console.miki.bio";
 var pastConsoleSentenses = "";
 var tmpSentense = "";
 var currentPath = "/root";
+
 window.onload = function() {
   // define
   document.onkeydown = keydown;
@@ -96,6 +97,11 @@ window.onload = function() {
   - ls
   - cd
   - cat
+  - mkdir
+  - touch
+
+  + echo
+  + rm
   */
   function pwd() { goNewLine(currentPath); }
   function ls(options) {
@@ -149,27 +155,8 @@ window.onload = function() {
     } else {
       changeDirectoryTo(tmpPath);
     }
-/*
-    if(currentCDir.includes(options[0])) {
-      changeDirectoryTo(currentPath+"/"+options[0]);
-    } else if(options[0]==='./'){
-      goNewLine();
-    } else if(options[0]==='../') {
-      const paths = currentPath.split("/");
-      if(paths.length===2 && paths[0]==='') {
-        goNewLine("> Here is the root.");
-      } else {
-        changeDirectoryTo(paths.slice(0,-1).join('/'));
-      }
-    } else {
-      var message = "> no such context or directory: " + options[0];
-      goNewLine(message);
-      return;
-    }
-    */
   }
   function cat(options) {
-    // const options = optionArr.filter(option => option!=='');
     /* TODO: is options[0] included in currentAvailableContext ?
     */
     if(options.length===0){
@@ -282,24 +269,23 @@ window.onload = function() {
     return expectedList;
   }
   /* ステータス取得 */
-  // function getCurrentChildDirs() {
   function getCurrentChildDirs(tmpPath) {
-  /* TODO: get tmp child directories from tmpPath */
+  /* TODO: */
 
     const _absPaths = tmpPath.split("/"); // this path must be Correct
     const check = _absPaths[_absPaths.length - 1];
     return PDIR_CDIR[check];
   }
-  // function getCurrentChildFiles() {
+
   function getCurrentChildFiles(tmpPath) {
-  /* TODO: get tmp child files from tmpPath */
+  /* TODO: */
     const _absPaths = tmpPath.split("/"); // this path must be Correct
     const check = _absPaths[_absPaths.length - 1];
     return DIR_FILE[check];
   }
-  function getTmpPath(path) {
-    /* TODO: get absolute path from option(relative path from currentPath) */
 
+  function getTmpPath(path) {
+    /* TODO: */
       if (!(path)) {
         return currentPath
       }
@@ -326,6 +312,7 @@ window.onload = function() {
       }
       return tmpPath;
   }
+
   /* テキスト挿入処理 */
   function updateConsoleContext() {
     consoleEl.innerHTML = pastConsoleSentenses+initsentense+currentPath+' $ '+tmpSentense+'<span id="cursor"></span>'
@@ -349,19 +336,6 @@ window.onload = function() {
     current_output = outputField.innerHTML;
     current_output += outputHTML + '<br>';
     outputField.innerHTML = current_output;
-  }
-  function updateCurrentNodeStatus(newDirectory) {
-    /* TODO:
-      necessary update currentChild and currentAvailableContext
-      > hey, first of all, disice structure.
-      oh, that's true, my god...
-    */
-
-  }
-  function updateNodeStatus() {
-    /*TODO:
-    when changing directory, update current child after these definisiongo
-     */
   }
 }
 /* file-structure
