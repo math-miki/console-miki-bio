@@ -4,7 +4,6 @@ var tmpSentense = "";
 var currentPath = "/root";
 window.onload = function() {
   // define
-  console.log(PDIR_CDIR);
   document.onkeydown = keydown;
   var consoleEl = document.getElementById("command_line_context");
   var outputField = document.getElementById("output_console_context");
@@ -19,6 +18,7 @@ window.onload = function() {
       const predictWord = commands[commands.length-1];
       if(predictWord==='') { return; }
       const expectedList = expectWord(predictWord);
+      console.log(expectedList);
       const expectedPatternCount = expectedList.length;
 
       if(expectedPatternCount===0) {
@@ -84,15 +84,18 @@ window.onload = function() {
   - cat
   */
   function pwd() { goNewLine(currentPath); }
-  function ls(optionArr) {
-    const options = optionArr.filter(option => option!=='');
+  function ls(options) {
+    // const options = optionArr.split(" ").filter(option => option!=='');
     /* TODO:
       -a option to show secret files.
      */
 
-     const currentCDir = getCurrentChildDirs();
-     const currentCFile = getCurrentChildFiles();
+     // if()
+     const tmpPath = getTmpPath(options[0]);
+     const currentCDir = getCurrentChildDirs(tmpPath);
+     const currentCFile = getCurrentChildFiles(tmpPath);
      var output = ""
+
      if(currentCDir.length>0) {
        output += "> currentChildDirectories: " + currentCDir.join(" ");
      }
@@ -104,31 +107,31 @@ window.onload = function() {
      }
      goNewLine(output);
   }
-  function cd(optionArr) {
-    const options = optionArr.filter(option => option!=='');
+  function cd(options) {
+    // const options = optionArr.filter(option => option!=='');
     // 'cd miki.bio': jump to miki.bio
-    if (options.length===0) {/* TODO:空の処理 */}
+    if (options.length===0) {/* TODO:空の処理 */
+      goNewLine();
+      return;
+    }
     if (options[0]=='miki.bio') {
       window.location.href = 'http://miki.bio';
       return;
     }
     const tmpPath = getTmpPath(options[0]);
     /* tmpPath is the absolute path expressing option's path */
-    // const currentCDir = getCurrentChildDirs(tmpPath);
+    const currentCDir = getCurrentChildDirs(tmpPath);
     // const currentCFile = getCurrentChildFiles(tmpPath);
     /* TODO:
-      error handling
-      if(currentCDir===null && currentCFile===null) {
-        var message = "> no such context or directory: " + options[0];
-        goNewLine(message);
-        return;
-      } else {
-
-      }
-     */
-    const currentCDir = getCurrentChildDirs();
-    const currentCFile = getCurrentChildFiles();
-
+      error handling*/
+    if(currentCDir===null /* && currentCFile===null */) {
+      var message = "> no such context or directory: " + options[0];
+      goNewLine(message);
+      return;
+    } else {
+      changeDirectoryTo(tmpPath);
+    }
+/*
     if(currentCDir.includes(options[0])) {
       changeDirectoryTo(currentPath+"/"+options[0]);
     } else if(options[0]==='./'){
@@ -145,79 +148,126 @@ window.onload = function() {
       goNewLine(message);
       return;
     }
+    */
   }
-  function cat(optionArr) {
-    const options = optionArr.filter(option => option!=='');
+  function cat(options) {
+    // const options = optionArr.filter(option => option!=='');
     /* TODO: is options[0] included in currentAvailableContext ?
     */
-    if(getCurrentChildFiles().includes(options[0])) {
-      goNewLine("> show " + options[0] + " on the right field");
-      const head = '<h2 class="output_title">about '+options[0]+'</h2>';
-      const context = FILE_CONTEXT[options[0]];
-      console.log(context);
+    if(options.length===0){
+      const msg = "";
+      goNewLine(msg);
+      return;
+    }
+    const pathChain = options[0].split("/");
+    let path = currentPath;
+    let file = ""
+    if (pathChain.length>1) {
+      path = getTmpPath(pathChain.slice(0,-1).join("/"));
+      file = pathChain[pathChain.length-1];
+    } else {
+      file = pathChain[0];
+    }
+    if(getCurrentChildFiles(path).includes(file)) {
+      goNewLine("> show " + file + " on the right field");
+      const head = '<h2 class="output_title">about '+file+'</h2>';
+      const context = FILE_CONTEXT[file];
       updateOutputConcole(head + context);
     } else {
       goNewLine('> '+options[0]+": No such file or directory");
     }
   }
+  function mkdir() {
+    /* TODO:  */
+  }
+  function touch() {
+    /* TODO: */
+  }
+  function echo() {
+    /* TODO: */
+  }
+  function rm() {
+    /* TODO: */
+    havePermittion();
+  }
   function expectWord(seed) {
+    const pathChain = seed.split("/");
+    let passibleDirs = [];
+    let passibleFiles = [];
+    let file = seed;
+    path = currentPath
+    console.log(seed);
+    console.log(pathChain.slice(0,-1).join("/"));
+    if(pathChain.length>1){
+      const path = getTmpPath(pathChain.slice(0,-1).join("/"));
+      file = pathChain[pathChain.length-1];
+    }
+    console.log(path);
+    console.log(file);
+    passibleDirs = getCurrentChildDirs(path);
+    passibleFiles = getCurrentChildFiles(path);
     const expectedList = [];
-    for (index in Object.keys(PDIR_CDIR)) {
-      const dir = Object.keys(PDIR_CDIR)[index];
-      console.log(seed);
-      const judge = dir.slice(0,seed.length);
-      if(judge.toLowerCase() === seed.toLowerCase()&&!(expectedList.includes(dir))&&getCurrentChildDirs().includes(dir)) {
+    for (index in passibleDirs) {
+      const dir = passibleDirs[index];
+      const judge = dir.slice(0,file.length);
+      if(judge.toLowerCase() === file.toLowerCase()&&!(expectedList.includes(dir))) {
         expectedList.push(dir);
       }
     }
-    for (i in Object.values(DIR_FILE)) {
-      const fileList = Object.values(DIR_FILE)[i];
-      for (j in fileList) {
-        file = fileList[j];
-        const judge = file.slice(0,seed.length);
-        if(judge.toLowerCase() === seed.toLowerCase()&&!(expectedList.includes(file))&&getCurrentChildFiles().includes(file)) {
-          expectedList.push(file);
-        }
+    console.log(passibleFiles);
+    for (i in passibleFiles) {
+      const fileName = passibleFiles[i];
+      const judge = fileName.slice(0,file.length);
+      if(judge.toLowerCase() === file.toLowerCase()&&!(expectedList.includes(fileName))) {
+        expectedList.push(fileName);
       }
     }
     return expectedList;
   }
   /* ステータス取得 */
-  function getCurrentChildDirs() {
-  // function getCurrentChildDirs(tmpPath) {
+  // function getCurrentChildDirs() {
+  function getCurrentChildDirs(tmpPath) {
   /* TODO: get tmp child directories from tmpPath */
-    const paths = currentPath.split("/");
-    const path = paths[paths.length - 1];
-    return PDIR_CDIR[path];
+
+    const _absPaths = tmpPath.split("/"); // this path must be Correct
+    const check = _absPaths[_absPaths.length - 1];
+    return PDIR_CDIR[check];
   }
-  function getCurrentChildFiles() {
-  // function getCurrentChildFiles(tmpPath) {
+  // function getCurrentChildFiles() {
+  function getCurrentChildFiles(tmpPath) {
   /* TODO: get tmp child files from tmpPath */
-    const paths = currentPath.split("/");
-    const path = paths[paths.length - 1];
-    return DIR_FILE[path];
+    const _absPaths = tmpPath.split("/"); // this path must be Correct
+    const check = _absPaths[_absPaths.length - 1];
+    return DIR_FILE[check];
   }
-  function getTmpPath(option) {
+  function getTmpPath(path) {
     /* TODO: get absolute path from option(relative path from currentPath) */
+
+      if (!(path)) {
+        return currentPath
+      }
       let tmpPath = currentPath;
-      if(option[0]==="/") {
+      if(path[0]==="/") {
         tmpPath = "/root";
       }
-      const dirs = option.split("/").filter(element=> element!=='');
+      const dirs = path.split("/").filter(element=> element!=='');
       for(let i=0; i<dirs.length; i++){
         const dir = dirs[i];
         if(getCurrentChildDirs(tmpPath).includes(dir)) {
           tmpPath += "/"+dir;
-        } else if(dir === "./") {
-        } else if(dir === "../") {
+        } else if(dir === ".") {
+        } else if(dir === "..") {
           if(tmpPath==="/root") {
             goNewLine("> You cannot go up over the /root");
             return "/root";
           }
+          tmpPath = tmpPath.split("/").slice(0,-1).join("/");
         } else {
           /* TODO: no such context or directory: dir */
+          return null;
         }
       }
+      return tmpPath;
   }
   /* テキスト挿入処理 */
   function updateConsoleContext() {
