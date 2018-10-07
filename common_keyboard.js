@@ -53,7 +53,7 @@ window.onload = function() {
       TODO: now, i can use tab-prediction with all commands.
             prepare list of directories with which tab-prediction can use.
             ex) [ls, cd, cat, ]
-            upps, i have the opportunity in all commands...
+            opps, i have the opportunity in all commands...
      */
     if (!commands[0]) {
       goNewLine();
@@ -79,7 +79,7 @@ window.onload = function() {
         touch(commands[1]); // only new file name( or path and name)
         break;
       case 'echo':
-        echo(commands.slice(1));
+        echo(commands.slice(1).join(" "));
         break;
       case 'rm':
         mkdir(commands.slice(1));
@@ -227,8 +227,21 @@ window.onload = function() {
       }
     }
   }
-  function echo() {
+  function echo(optionArr) {
+
     /* TODO: */
+    const outputFile = "";
+    const context = "こんてき〜";
+
+    if(outputFile==="") {
+      updateOutputConcole(context);
+    } else {
+      /* judge outputfile exist */
+      // if(not) { touch(outputFile) };
+      const pathChain = outputFile.split("/");
+      const outputFileName = pathChain[pathChain.length-1];
+      FILE_CONTEXT[outputFileName] += context;
+    }
   }
   function rm() {
     /* TODO: */
