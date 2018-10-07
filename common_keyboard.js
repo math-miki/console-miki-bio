@@ -197,7 +197,7 @@ window.onload = function() {
     let path = currentPath;
     let newDirName = option;
     if(pathChain.length>1) {
-      path = getTmpPath(pathChain.slice(0,-1));
+      path = getTmpPath(pathChain.slice(0,-1).join("/"));
       fileName = pathChain[pathChain.length-1];
     }
     if(path!=null) {
@@ -224,13 +224,16 @@ window.onload = function() {
       newFileName = pathChain[pathChain.length-1];
     }
     /* TODO: under codes are copied from mkdir. update */
-    if(!(PDIR_CDIR[dir].includes(newDirName))) {
-      PDIR_CDIR[dir].push(newDirName);
-      PDIR_CDIR[newDirName] = ["miki.bio"];
-      DIR_FILE[newDirName] = ["sns"];
-      goNewLine("Added new Directory: " + newDirName);
-    } else {
-      goNewLine(newDirName + ": Directory of this name already exists");
+    if(path!=null) {
+      const dirs = path.split("/");
+      const dir = dirs[dirs.length-1];
+      if(!(DIR_FILE[dir].includes(newFileName))) {
+        DIR_FILE[dir].push(newFileName);
+        FILE_CONTEXT[newFileName] = "";
+        goNewLine("Added new file: " + newFileName);
+      } else {
+        goNewLine(newDirName + ": The file of this name already exists");
+      }
     }
   }
   function echo() {
