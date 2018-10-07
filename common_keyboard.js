@@ -192,13 +192,13 @@ window.onload = function() {
     }
   }
   function mkdir(option) {
-    /* TODO: in mkdir, i can't use path chain because of error in getTmpPath method. */
+    /* TODO: */
     const pathChain = option.split("/").filter(element=> element!=='');
     let path = currentPath;
     let newDirName = option;
     if(pathChain.length>1) {
       path = getTmpPath(pathChain.slice(0,-1).join("/"));
-      fileName = pathChain[pathChain.length-1];
+      newDirName = pathChain[pathChain.length-1];
     }
     if(path!=null) {
       const dirs = path.split("/");
