@@ -75,10 +75,10 @@ window.onload = function() {
         mkdir(commands[1]); // only new directory name( or path and name)
         break;
       case 'touch':
-        mkdir(commands.slice(1));
+        touch(commands[1]); // only new file name( or path and name)
         break;
       case 'echo':
-        mkdir(commands.slice(1));
+        echo(commands.slice(1));
         break;
       case 'rm':
         mkdir(commands.slice(1));
@@ -124,6 +124,10 @@ window.onload = function() {
   function cd(options) {
     // const options = optionArr.filter(option => option!=='');
     // 'cd miki.bio': jump to miki.bio
+
+    /*
+    TODO: cd ../ in root, ex-lines displayed
+     */
     if (options.length===0) {/* TODO:空の処理 */
       goNewLine();
       return;
