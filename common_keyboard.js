@@ -224,7 +224,7 @@ window.onload = function() {
     let path = currentPath;
     let newFileName = option;
     if(pathChain.length>1) {
-      path = getTmpPath(pathChain.slice(0,-1));
+      path = getTmpPath(pathChain.slice(0,-1).join("/"));
       newFileName = pathChain[pathChain.length-1];
     }
     /* TODO: under codes are copied from mkdir. update */
