@@ -229,14 +229,14 @@ window.onload = function() {
   }
   function echo(optionArr) {
 
-    /* TODO: */
+    /* TODO: code!!!!!*/
     const outputFile = "";
     const context = "こんてき〜";
 
     if(outputFile==="") {
       updateOutputConcole(context);
     } else {
-      /* judge outputfile exist */
+      /* judge outputfile exists */
       // if(not) { touch(outputFile) };
       const pathChain = outputFile.split("/");
       const outputFileName = pathChain[pathChain.length-1];
@@ -329,6 +329,7 @@ window.onload = function() {
   /* テキスト挿入処理 */
   function updateConsoleContext() {
     consoleEl.innerHTML = pastConsoleSentenses+initsentense+currentPath+' $ '+tmpSentense+'<span id="cursor"></span>'
+    manageCommandLineFrame();
   }
   function goNewLine(msg) {
     var message='';
@@ -349,6 +350,24 @@ window.onload = function() {
     current_output = outputField.innerHTML;
     current_output += outputHTML + '<br>';
     outputField.innerHTML = current_output;
+    manageCommandLineFrame();
+  }
+
+  /* field style management: height and top */
+  function manageCommandLineFrame() {
+    const commandLineHeight = consoleEl.clientHeight+82;
+    const windowHeight = window.outerHeight;
+    console.log(commandLineHeight);
+    console.log(windowHeight);
+
+    if(commandLineHeight>windowHeight) {
+      console.log("a");
+      consoleEl.style.top = windowHeight-commandLineHeight;
+    }
+  }
+
+  function manageOutputFieldFrame() {
+
   }
 }
 /* file-structure
