@@ -229,18 +229,55 @@ window.onload = function() {
   }
   function echo(optionArr) {
 
-    /* TODO: code!!!!!*/
-    const outputFile = "";
-    const context = "こんてき〜";
+    /* TODO: split optionArr
+      this option includes redirection?
+      > fileName: update context of fileName
+      >> fileName: add context to fileName
 
-    if(outputFile==="") {
-      updateOutputConcole(context);
+    */
+    // REMARK: don't consider the case context includes >>  or >
+    let mainpart = "";
+    let redirection = "";
+    /*
+      set flag
+      - 0: default. output context on output_console
+      - 1: used >. output context by updating file context
+      - 2: used >>. output context by adding context to file.
+     */
+    let flag = 0;
+
+    if(optionArr.includes(">>")) {
+      const options = optionArr.split(">>")
+      mainpart=options[0];
+      redirection=options[1];
+      flag = 2;
+    } else if(optionArr.includes(">")) {
+      const options = optionArr.split(">")
+      mainpart=options[0];
+      redirection=options[1];
+      flag = 1;
+    } else {
+      mainpart = optionArr;
+    }
+
+    /* TODO: code!!!!!*/
+    context = "こんてき~"
+    if(redirection==="") {
+      updateOutputConcole(mainpart);
     } else {
       /* judge outputfile exists */
       // if(not) { touch(outputFile) };
-      const pathChain = outputFile.split("/");
-      const outputFileName = pathChain[pathChain.length-1];
-      FILE_CONTEXT[outputFileName] += context;
+      if(redirection.split("/").length>1) {
+        // get tmp path する
+      } else {
+        if(getCurrentChildFiles("").includes(redirection)) {
+
+        }
+      }
+      const pathChain = redirection.split("/");
+      const redirectionName = pathChain[pathChain.length-1];
+      FILE_CONTEXT[redirectionName] += context;
+
     }
   }
   function rm() {
@@ -285,14 +322,24 @@ window.onload = function() {
   function getCurrentChildDirs(tmpPath) {
   /* TODO: */
 
-    const _absPaths = tmpPath.split("/"); // this path must be Correct
+    const _absPath = "";
+    if(tmpPath==="") {
+      _absPaths = currentPath.split("/");
+    } else {
+      _absPaths = tmpPath.split("/"); // this path must be Correct
+    }
     const check = _absPaths[_absPaths.length - 1];
     return PDIR_CDIR[check];
   }
 
   function getCurrentChildFiles(tmpPath) {
   /* TODO: */
-    const _absPaths = tmpPath.split("/"); // this path must be Correct
+    const _absPath = "";
+    if(tmpPath==="") {
+      _absPaths = currentPath.split("/");
+    } else {
+      _absPaths = tmpPath.split("/"); // this path must be Correct
+    }
     const check = _absPaths[_absPaths.length - 1];
     return DIR_FILE[check];
   }
@@ -380,7 +427,7 @@ window.onload = function() {
       |- Coffee
       |- Camera
       |- Tennis
-  |- Interest
+  |- Interes
   |- Articles
 
 some files are always available
